@@ -80,6 +80,6 @@ int main()
 		}
 	printf("%d\n", LargestSumSubMatrix(m,n));
 	clock_t finish = clock();
-	printf("%.10lf", (double)(finish - start)*1.0f/CLOCKS_PER_SEC);
+	printf("%.10lf", (double)(finish - start)/CLOCKS_PER_SEC);
 	return 0;
 }
