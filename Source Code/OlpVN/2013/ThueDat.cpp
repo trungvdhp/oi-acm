@@ -54,7 +54,7 @@ int LargestSumSubMatrix(int r, int c)
 	        for(j=i;j<r;j++)
 	        {
 	            for(k=0;k<c;k++)
-	                b[k]=b[k]+ a[j][k];
+	                b[k]=b[k]+a[j][k];
 	            total=lss(b,c);
 	            if(max<total)
 	                max=total;
@@ -80,6 +80,6 @@ int main()
 		}
 	printf("%d\n", LargestSumSubMatrix(m,n));
 	clock_t finish = clock();
-	printf("%.10lf", (double)(finish - start)/CLOCKS_PER_SEC);
+	printf("%.10lf", (double)(finish - start)*1.0f/CLOCKS_PER_SEC);
 	return 0;
 }
