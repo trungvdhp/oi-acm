@@ -1,51 +1,49 @@
-#include<stdio.h>
-#include<stdlib.h>
+#include<cstdio>
+#include<cstdlib>
 
-typedef struct segment
-		{
-			int start;
-			int end;
-		}SEG;
-				
-int compare(const void *a, const void *b)
+struct task
 {
-	SEG s1=*(SEG*)a;
-	SEG s2=*(SEG*)b;
-	
-	if(s1.start!=s2.start) 
-		return s1.start-s2.start;
-	return s2.end-s1.end;
-}
+	int start;
+	int end;
+};
+// Ham so sanh dung cho QuickSort: Sap xep theo thoi diem bat dau tang dan
+// neu thoi diem bat dau bang nhau thi sap xep giam dan theo thoi diem ket thuc			
+int compare(const void*, const void*);
 
 int main()
 {
-	int n;
-	int p,q,r,s;
 	int i;
-	int max1,max2,maxp,maxq,maxr,maxs;
+	int n;
+	task t1,t2,t3;
+	// max1: khoang thoi gian dai nhat luon co chuong trinh chay
+	// max2: khoang thoi gian dai nhat luon khong co chuong trinh chay
+	int max1,max2;
 	scanf("%d",&n);
-	SEG A[n];
-	
+	task T[n];
+	// Doc du lieu thoi gian cua cac tac vu
 	for(i=0;i<n;i++)
-		scanf("%d%d",&A[i].start,&A[i].end);
-	qsort(A,n,sizeof(SEG),compare);
-	
-	scanf("%d%d",&p,&q);
-	scanf("%d%d",&r,&s);
+		scanf("%d%d",&T[i].start,&T[i].end);
+	// Dung QuickSort sap xep cac tac vu cho de xu ly
+	qsort(T,n,sizeof(task),compare);
+	//Doc [p q] va [r s]
+	scanf("%d%d",&t1.start,&t1.end); 
+	scanf("%d%d",&t2.start,&t2.end);
 	
 	// Kiem tra xem doan [p,q] luon co chuong trinh chay khong
 	for(i=0;i<n;i++)
 	{
-		if(A[i].start>p || p>q) break;
-		if(A[i].end>p) p=A[i].end;
+		if(T[i].start>t1.start || t1.start>t1.end) break;
+		
+		if(T[i].end>t1.start) t1.start=T[i].end;
 	}
-	if(p<q) printf("0");
+	
+	if(t1.start<t1.end) printf("0");
 	else printf("1");
 	// Kiem tra xem doan [r,s] luon ko co chuong trinh chay khong
 	for(i=0;i<n;i++)
 	{
-		if(A[i].end<r) continue;
-		else if(A[i].start>s)
+		if(T[i].end<t2.start) continue;
+		else if(T[i].start>t2.end)
 		{
 			i=n;
 			break;
@@ -55,59 +53,57 @@ int main()
 	
 	if(i==n) printf("\n1");
 	else printf("\n0");
-	// Tim doan [p,q] dai nhat ma tai moi thoi diem luon co chuong trinh chay
-	// Va tim doan [r,s] dai nhat ma tai moi thoi diem luon ko co chuong trinh chay
-	p=A[0].start;
-	q=A[0].end;
-	
+	// Tim doan t2=[p,q] dai nhat ma tai moi thoi diem luon co chuong trinh chay
+	// va tim doan t3=[r,s] dai nhat ma tai moi thoi diem luon ko co chuong trinh chay
+	t1=T[0];
+	t2.start=0;
+	t2.end=0;
 	max1=0;
-	maxp=0;
-	maxq=0;
 	
-	maxr=0;
-	maxs=p-1;
-	max2=maxs-maxr+1;
+	t3.start=0;
+	t3.end=t1.start-1;
+	max2=t1.start;
 	
 	for(i=1;i<n;i++)
 	{
-		if(A[i].start>q)
+		if(T[i].start>t1.end)
 		{
-			if(q-p+1>max1)
+			if(t1.end-t1.start+1>max1)
 			{
-				 max1=q-p+1;
-				 maxp=p;
-				 maxq=q;
+				 max1=t1.end-t1.start+1;
+				 t2=t1;
 			}
 			
-			if(A[i].start-q-1>max2)
+			if(T[i].start-t1.end-1>max2)
 			{
-				maxr=q+1;
-				maxs=A[i].start-1;
-				max2=maxs-maxr+1;
+				t3.start=t1.end+1;
+				t3.end=T[i].start-1;
+				max2=t3.end-t3.start+1;
 			}
-			p=A[i].start;
-			q=A[i].end;
+			t1=T[i];
 		}
-		else if(A[i].end>q)
-		{
-			q=A[i].end;
-		}
+		else if(T[i].end>t1.end) t1.end=T[i].end;
 	}
+	// Xu ly cho khoang thoi gian cuoi cung va in ket qua
+	if(t1.end-t1.start+1>max1) t2=t1;
+	printf("\n%d %d",t2.start,t2.end);
 	
-	if(q-p+1>max1)
+	if(8640000-T[n-1].end>max2)
 	{
-		 maxp=p;
-		 maxq=q;
+		t3.start=T[n-1].end+1;
+		t3.end=8640000;
 	}
-			
-	printf("\n%d %d",maxp,maxq);
+	printf("\n%d %d",t3.start,t3.end);
 	
-	if(8640000-A[n-1].end>max2)
-	{
-		maxr=A[n-1].end+1;
-		maxs=8640000;
-	}
-
-	printf("\n%d %d",maxr,maxs);
 	return 0;
+}
+
+int compare(const void *a, const void *b)
+{
+	task s1=*(task*)a;
+	task s2=*(task*)b;
+	
+	if(s1.start!=s2.start) 
+		return s1.start-s2.start;
+	return s2.end-s1.end;
 }
