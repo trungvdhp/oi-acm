@@ -88,29 +88,27 @@ int main()
 				continue;
 			}
 			// Map danh dau toa do da duoc ghe tham hay chua
-			map<point,bool> Visited;
+			map<point,bool> visited;
 			map<point,bool>::iterator itv;
-			// Hang doi uu tien sap xep cac phan tu trong hang doi theo nguyen tac:
-			// mac dinh khong tang theo gia tri dau tien, o day la gia tri kieu (int)
-			// trong pair<int, point>, point la diem cuoi cung vua ghe tham 
-			// tren quang duong ngan nhat.
-			priority_queue< pair<int, point> > q;
+			// Hang doi de duyet theo chieu rong
+			queue< pair<int, point> > q;
 			// Dua toa do bat dau (x1,y1) vao hang doi, do dai duong di la 0
 			p.x=x1;
 			p.y=y1;
 			// Da ghe tham
-			Visited[p]=true;
+			visited[p]=true;
 			q.push(make_pair(0, p));
 			
 			while(!q.empty())
 			{
 				// Lay phan tu dau hang doi
-				t=q.top();
+				t=q.front();
 				q.pop();
 				// Lay toa do
 				p=t.second;
-				
 				// Tim xem tai hang x co the sang trai, sang phai, hay khong duoc
+				// Neu dung HE[p.x], neu x khong co trong map 
+				// => sinh phan tu mac dinh, tang bo nho, khong tot
 				it=HE.find(p.x);
 				// Neu tim thay chi so hang trong map HE nghia la di duoc voi
 				// gia tri gia tang la gia tri anh xa tuong ung (second)
@@ -122,23 +120,20 @@ int main()
 					// La toa do dich den => in ket qua va dung vong lap
 					if(p1.x==x2&&p1.y==y2)
 					{
-						printf("%d",1-t.first);
+						printf("%d",t.first+1);
 						break;
 					}
 					// toa do nam trong ban do
 					if(p1.x>=0&&p1.y>=0&&p1.x<=HG[H-1]&&p1.y<=VG[V-1])
 					{
 						// tim xem toa do da duoc ghe tham chua
-						itv=Visited.find(p1);
+						itv=visited.find(p1);
 						// toa do chua duoc ghe tham
-						if(itv==Visited.end()) 
+						if(itv==visited.end()) 
 						{
 							// tham 
-							Visited[p1]=true;
-							// Ta can lay gia gia tri nho nhat o dau hang doi sau moi lan lap
-							// trong khi hang doi lai uu tien sap xep khong tang nen ta phai
-							// truyen vao gia tri am bang cach -1 moi lan day vao
-							q.push(make_pair(t.first-1, p1));
+							visited[p1]=true;
+							q.push(make_pair(t.first+1, p1));
 						}
 					}
 				}
@@ -153,18 +148,18 @@ int main()
 
 					if(p1.x==x2&&p1.y==y2)
 					{
-						printf("%d",1-t.first);
+						printf("%d",1+t.first);
 						break;
 					}
 					
 					if(p1.x>=0&&p1.y>=0&&p1.x<=HG[H-1]&&p1.y<=VG[V-1])
 					{
-						itv=Visited.find(p1);
+						itv=visited.find(p1);
 						
-						if(itv==Visited.end()) 
+						if(itv==visited.end()) 
 						{
-							Visited[p1]=true;
-							q.push(make_pair(t.first-1,p1));
+							visited[p1]=true;
+							q.push(make_pair(t.first+1,p1));
 						}
 					}
 				}
