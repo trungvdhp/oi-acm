@@ -1,7 +1,6 @@
 #include <cstdio>
 
 char a[250][251];
-bool c[250][250];
 
 int main()
 {
@@ -14,40 +13,20 @@ int main()
 	
 	for(i = 0; i < n; ++i)
 		scanf("%s", &a[i]);
+	n++;
 		
-	for(k = 2; k <= n; ++k)
+	for(k = 2; k < n; ++k)
 	{
-		m = n - k + 1;
+		m = n - k;
 		count = 0;
 		
 		for(i = 0; i < m; ++i)
 		{
 			for(j = 0; j < m; ++j)
 			{
-				if (!c[i][j])
-				{
-					check = true;
-					
-					for(u = 0; u < k; ++u)
-					{
-						for(v = 0; v < k; ++v)
-						{
-							if (a[i+u][j+v] == '0')
-							{
-								check = false;
-								break;
-							}
-						}
-						
-						if (!check)
-						{
-							c[i][j] = true;
-							break;				
-						}
-					}
-					
-					if (check) count++;
-				}
+				if (a[i][j]=='1' && a[i+1][j]=='1' && a[i][j+1]=='1'&& a[i+1][j+1]=='1')
+					count++;
+				else a[i][j] = '0';
 			}
 		}
 		
