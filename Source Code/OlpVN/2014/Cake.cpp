@@ -11,7 +11,6 @@ struct cake
 
 int get_min_diff(cake* a, int m)
 {
-	int min = 2000000000;
 	int i, k;
 	
 	for(i = 0; i < m; ++i)
