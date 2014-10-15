@@ -1,10 +1,13 @@
 #include <cstdio>
+#include <cmath>
 
 unsigned long long get_min_base(unsigned long long a)
 {
 	unsigned long long b;
 	unsigned long long r;
 	unsigned long long c;
+	unsigned long long sq = sqrt(a);
+	unsigned long long d=1;
 	
 	for(unsigned long long i=2;; i++)
 	{
@@ -13,6 +16,10 @@ unsigned long long get_min_base(unsigned long long a)
 		c = r;
 		b = b / i;
 		
+		if(r != 0) d++;
+		
+		if(d==sq && d==i) return a-1;
+		
 		while(b>0)
 		{
 			r = b % i;
@@ -20,7 +27,7 @@ unsigned long long get_min_base(unsigned long long a)
 			if(r != c) break;
 		}
 		
-		if(b==0) return i;
+		if(r==c) return i;
 	}
 	
 	return a-1;
