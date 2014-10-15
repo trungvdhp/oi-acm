@@ -2,19 +2,28 @@
 #include <cmath>
 typedef unsigned long long ull;
 
-// Tinh b^0 + b^1 + b^2 + .. + b^deg
+// Tinh a^b, do phuc tap log2(b)
+ull power(ull a, ull b)
+{
+	ull p = 1;
+	
+	while(b) 
+	{
+		if(b&1) 
+		{
+			p *= a;
+			--b;
+		}
+		a *= a;
+		b >>= 1;
+	}
+	return p;
+}
+
+// Tinh b^0 + b^1 + b^2 + .. + b^deg = (b^(deg+1)-1)/(b-1)
 ull f(ull base, ull deg)
 {
-	unsigned long long rs=1;
-	unsigned long long k=base;
-	
-	while(deg--)
-	{
-		rs += k;
-		k *= base;
-	}
-	
-	return rs;
+	return (power(base, deg+1)-1)/(base-1);
 }
 
 ull get_min_base(ull n)
@@ -29,14 +38,14 @@ ull get_min_base(ull n)
 		if(n % a == 0)
 		{
 			x = n/a;
-			// d lon nhat khi 2^d = x => d = log2(x) va d > 0
+			r=1;
+			// d lon nhat khi 2^d = x => d = log2(x) va d > 0	
 			for(d = (ull)log2(x); d > 0; d--)
 			{
 				// b^d = x => b = x^(1/d)
 				b = (ull)(pow(x, 1.0/d));
 				// Kiem tra xem co tim thay co so b thoa man f(b, d) = x khong
 				check = false;
-				r=1;
 				
 				while(b>r)
 				{
@@ -55,7 +64,6 @@ ull get_min_base(ull n)
 						r = b;
 						break;
 					}
-					
 					b--;
 				}
 				
@@ -69,17 +77,16 @@ ull get_min_base(ull n)
 			}
 		}
 	}
-	
 	return min_base;	
 }
 
 int main()
 {
 	int T;
-	unsigned long long n;
+	ull n;
 	scanf("%d", &T);
 	
-	for(int i=0; i<T; i++)
+	while(T--)
 	{
 		scanf("%llu", &n);
 		printf("%llu\n", get_min_base(n));
