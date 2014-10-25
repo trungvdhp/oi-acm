@@ -96,7 +96,21 @@ int main()
 	int n, k;
 	bool check;
 	int x;
+	a[0] = 1;
 	
+	if(B > 73939133)
+	{
+		B = 73939133;
+		
+		if(A > B)
+		{
+			printf("0");
+			return 0;
+		}
+	}
+	
+	if(A<=2) rs.push_back(2);
+
 	if(M>B)
 	{
 		sieve(B);
@@ -107,7 +121,6 @@ int main()
 	    {
 	        if(a[i]==0)
 	        {
-	        	
 	        	x = (i<<1)+1;
 	        	k=x;
 	        	check=true;
@@ -115,8 +128,7 @@ int main()
 	        	while(1)
 	        	{
 	        		k = k/10;
-	        	
-	        		if(k<3) break;
+	        		if(k==2 || k==0) break;
 	        		
 	        		if(k%2==0 || a[k>>1])
 	        		{
@@ -124,7 +136,6 @@ int main()
 	        			break;
 	        		}
 	        	}
-	        	
 	        	if(check)
 	        	{
 	        		rs.push_back(x);
@@ -132,7 +143,7 @@ int main()
 	        } 
 	    }
 	}
-	else if(M<A)
+	/*else if(M<A)
 	{
 		sieve(M);
 		sieve(A, B);
@@ -150,8 +161,8 @@ int main()
         	{
         		k = k/10;
         		
-        		if(k<3) break;
-        		
+        		if(k==2 || k==0) break;
+	        		
         		if(k%2==0 || a[k>>1])
         		{
         			check=false;
@@ -184,7 +195,7 @@ int main()
 	        	{
 	        		k = k/10;
 	        		
-	        		if(k<3) break;
+	        		if(k==2 || k==0) break;
 	        		
 	        		if(k%2==0 || a[k>>1])
 	        		{
@@ -210,7 +221,7 @@ int main()
         	{
         		k = k/10;
         		
-        		if(k<3) break;
+        		if(k==2 || k==0) break;
         		
         		if(k%2==0 || a[k>>1])
         		{
@@ -222,7 +233,7 @@ int main()
         	if(check)
         		rs.push_back(x);
 		}
-	}
+	}*/
 	
 	n = rs.size();
 	printf("%d", n);
