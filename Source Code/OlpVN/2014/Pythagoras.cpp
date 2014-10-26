@@ -1,5 +1,9 @@
 #include <cstdio>
 #include <cmath>
+// if a = m^2-n^2 = (m-n)(m+n) = xy => m=(x+y)/2, n=(x-y)/2 then b=2mn=(x^2-y^2)/2
+// if a = 2mn  then b = m^2-n^2
+// b > a, c=m^2+n^2
+
 int main()
 {
 	int T;
@@ -38,7 +42,7 @@ int main()
 		
 		printf("%d", count);
 		
-		if(T>1) printf("\n");
+		if(T) printf("\n");
 	}
 	return 0;
 }
